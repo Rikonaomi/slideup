@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth scroll-pt-28">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlideUp - Beautiful Slides, Powerful Ideas</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'oklch(14% .04 290)',
+                        foreground: 'oklch(97% .01 290)'
+                    },
+                    fontFamily: {
+                        display: ['Space Grotesk', 'Inter', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    animation: {
+                        float: 'float 7s ease-in-out infinite',
+                        glow: 'glow 4s ease-in-out infinite',
+                        'fade-up': 'fade-up 0.8s ease-out both',
+                        shimmer: 'shimmer 8s linear infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(var(--tw-rotate, 0deg))' },
+                            '50%': { transform: 'translateY(-18px) rotate(var(--tw-rotate, 0deg))' }
+                        },
+                        glow: {
+                            '0%, 100%': { opacity: '0.55', filter: 'blur(40px)' },
+                            '50%': { opacity: '0.95', filter: 'blur(60px)' }
+                        },
+                        'fade-up': {
+                            '0%': { opacity: '0', transform: 'translateY(28px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '0%' },
+                            '100%': { backgroundPosition: '200%' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+        .glass { 
+    -webkit-backdrop-filter: blur(22px) saturate(160%); 
+    backdrop-filter: blur(22px) saturate(160%); 
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); 
+    border: 1px solid rgba(255,255,255,0.05); 
+}
+            .glass-strong { 
+                -webkit-backdrop-filter: blur(28px) saturate(160%); 
+                backdrop-filter: blur(28px) saturate(160%); 
+                background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)); 
+                border: 1px solid rgba(255,255,255,0.12); 
+            }
+            .text-gradient { 
+                background: linear-gradient(120deg, #c4b5fd 0%, #f0abfc 40%, #93c5fd 80%); 
+                color: transparent; 
+                background-size: 200% 100%; 
+                -webkit-background-clip: text; 
+                background-clip: text; 
+                animation: shimmer 8s linear infinite; 
+            }
+            .bg-gradient-neon { 
+                background: linear-gradient(135deg, oklch(70% .27 305), oklch(72% .27 340) 50%, oklch(72% .22 240)); 
+            }
+            .glow-purple { 
+                box-shadow: 0 0 40px oklch(70% .27 305/.55), 0 0 90px oklch(70% .27 305/.35); 
+            }
+            .glow-pink {
+                box-shadow: 0 0 40px oklch(72% .27 340/.5);
+            }
+            .shadow-card { 
+                box-shadow: 0 20px 60px -15px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06) inset; 
+            }
+            .grid-pattern { 
+                background-image: linear-gradient(rgba(167, 139, 250, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(167, 139, 250, 0.07) 1px, transparent 1px); 
+                background-size: 56px 56px; 
+            }
+        }
+    </style>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
+        
+        body { 
+            background-color: oklch(14% .04 290);
+            color: oklch(97% .01 290);
+            font-family: "Inter", system-ui, sans-serif;
+            background-image: radial-gradient(at 15% 0, #bc77ff2e, transparent 55%), radial-gradient(at 85% 10%, #ff56d324, transparent 55%), radial-gradient(at 50% 100%, #10afff29, transparent 60%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="antialiased text-foreground bg-background">
+
+    <div class="relative min-h-screen">
+        <nav class="fixed top-0 inset-x-0 z-50">
+            <div class="mx-auto mt-4 w-[min(100%,1280px)] px-4">
+                <div class="glass-strong rounded-2xl px-5 py-3 flex items-center gap-6 shadow-card">
+                    <a href="#home" class="flex items-center gap-3 group">
+                        <span class="relative grid place-items-center w-10 h-10 rounded-xl bg-gradient-neon glow-purple">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-white" stroke-width="2.5"></i>
+                        </span>
+                        <span class="font-display text-xl font-bold tracking-tight text-white">
+                            Slide<span class="text-gradient">Up</span>
+                        </span>
+                    </a>
+
+                    <ul class="flex items-center gap-7 text-sm text-white/95 font-medium ms-4">
+                        <li><a href="#home" class="hover:text-fuchsia-300 transition" data-i18n="nav_home">Home</a></li>
+                        <li><a href="#video-works" class="hover:text-fuchsia-300 transition" data-i18n="nav_templates">Templates</a></li>
+                        <li><a href="#how-it-works" class="hover:text-fuchsia-300 transition" data-i18n="nav_process">Process</a></li>
+                        <li><a href="#about" class="hover:text-fuchsia-300 transition" data-i18n="nav_about">About</a></li>
+                    </ul>
+
+                    <div class="ms-auto flex items-center gap-2">
+                        <label class="hidden lg:flex items-center gap-2 glass rounded-full px-3 py-1.5 text-sm w-56">
+                            <i data-lucide="search" class="w-4 h-4 text-white/70"></i>
+                            <input class="bg-transparent outline-none text-white placeholder:text-white/50 w-full" data-i18n-placeholder="nav_search" placeholder="Search templates..." />
+                        </label>
+
+                        <div class="inline-flex items-center gap-1 glass rounded-full px-1.5 py-1 text-xs font-semibold">
+                            <i data-lucide="globe" class="w-3.5 h-3.5 text-white/80 mx-1"></i>
+                            <button id="btn-en" onclick="setLang('en')" class="px-2.5 py-1 rounded-full transition bg-gradient-neon text-white">EN</button>
+                            <button id="btn-ar" onclick="setLang('ar')" class="px-2.5 py-1 rounded-full transition text-white/70 hover:text-white">AR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <section id="home" class="relative pt-40 md:pt-44 lg:pt-48 pb-16 overflow-hidden">
+                <div class="absolute inset-0 -z-10">
+                    <img src="./hero-bg.jpg" alt="" width="1920" height="1080" class="w-full h-full object-cover opacity-20" onerror="this.style.display='none'">
+                    <div class="absolute inset-0 bg-black/60"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-background/70 via-background/90 to-background"></div>
+                    <div class="absolute inset-0 grid-pattern opacity-20"></div>
+                </div>
+
+                <div class="absolute -top-20 left-10 w-96 h-96 rounded-full bg-fuchsia-500/30 blur-3xl animate-glow"></div>
+                <div class="absolute top-40 right-0 w-[28rem] h-[28rem] rounded-full bg-blue-500/20 blur-3xl animate-glow" style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-0 left-1/3 w-80 h-80 rounded-full bg-pink-500/20 blur-3xl animate-glow" style="animation-delay: 4s;"></div>
+
+                <div id="hero-wrap" class="relative mx-auto w-[min(100%,1280px)] px-6 grid lg:grid-cols-2 gap-10 items-center">
+                    
+                    <div class="animate-fade-up">
+                        <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs font-medium text-white">
+                            <i data-lucide="star" class="w-3.5 h-3.5 text-fuchsia-300 fill-fuchsia-300"></i>
+                            <span data-i18n="hero_badge">Beautiful Slides, Powerful Ideas</span>
+                        </div>
+
+                        <h1 class="font-display mt-5 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-white">
+                            <span data-i18n="hero_title_1">Make Every</span> <br />
+                            <span class="text-gradient" data-i18n="hero_title_2">Slide Shine</span>
+                        </h1>
+
+                        <p class="mt-5 text-lg text-white/75 max-w-lg leading-relaxed" data-i18n="hero_subtitle">
+                            Stunning PowerPoint templates and presentation design crafted to elevate every pitch, story, and idea.
+                        </p>
+
+                        <div class="mt-7 flex flex-wrap items-center gap-4">
+                            <a href="#video-works" class="group relative inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-neon text-white font-medium glow-purple hover:scale-[1.03] transition">
+                                <span data-i18n="hero_cta_explore">Explore Templates</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition rtl:rotate-180"></i>
+                            </a>
+                            <a href="#how-it-works" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-full glass-strong text-white hover:border-white/30 transition">
+                                <span class="grid place-items-center w-7 h-7 rounded-full bg-gradient-neon">
+                                    <i data-lucide="play" class="w-3 h-3 text-white fill-white ml-0.5"></i>
+                                </span>
+                                <span data-i18n="hero_cta_how">How It Works</span>
+                            </a>
+                        </div>
+
+                        <div class="mt-8 flex items-center gap-4">
+                            <div class="flex -space-x-3 rtl:space-x-reverse">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 ring-2 ring-background grid place-items-center text-xs font-bold text-white">A</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 ring-2 ring-background grid place-items-center text-xs font-bold text-white">B</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 ring-2 ring-background grid place-items-center text-xs font-bold text-white">C</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-pink-500 ring-2 ring-background grid place-items-center text-xs font-bold text-white">D</div>
+                            </div>
+                            <div class="text-sm">
+                                <div class="font-semibold text-white" data-i18n="hero_trusted">Trusted by 10,000+</div>
+                                <div class="text-white/60 text-xs" data-i18n="hero_trusted_sub">creators & professionals</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="works" class="relative h-[460px]" style="transform: perspective(1200px) rotateY(0deg) rotateX(0deg); transition: transform 200ms ease-out;">
+                        <div class="absolute inset-0 m-auto w-[420px] h-[300px] glass-strong rounded-3xl shadow-card overflow-hidden glow-purple animate-float">
+                            <div class="flex items-center gap-2 px-4 py-3 border-b border-white/10">
+                                <div class="w-7 h-7 rounded-lg bg-gradient-neon grid place-items-center text-[10px] font-black text-white">P</div>
+                                <div class="ms-auto flex gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-white/20"></span>
+                                </div>
+                            </div>
+                            <div class="p-5 grid grid-cols-[80px_1fr] gap-4 h-full">
+                                <div class="flex flex-col gap-2">
+                                    <div class="rounded-lg p-1.5 text-[8px] font-bold bg-gradient-neon text-white glow-purple">01<div class="mt-1 h-1 rounded-full bg-white/30"></div><div class="mt-1 h-1 w-2/3 rounded-full bg-white/20"></div></div>
+                                    <div class="rounded-lg p-1.5 text-[8px] font-bold glass text-white/70">02<div class="mt-1 h-1 rounded-full bg-white/30"></div><div class="mt-1 h-1 w-2/3 rounded-full bg-white/20"></div></div>
+                                    <div class="rounded-lg p-1.5 text-[8px] font-bold glass text-white/70">03<div class="mt-1 h-1 rounded-full bg-white/30"></div><div class="mt-1 h-1 w-2/3 rounded-full bg-white/20"></div></div>
+                                    <div class="rounded-lg p-1.5 text-[8px] font-bold glass text-white/70">04<div class="mt-1 h-1 rounded-full bg-white/30"></div><div class="mt-1 h-1 w-2/3 rounded-full bg-white/20"></div></div>
+                                </div>
+                                <div class="rounded-xl bg-gradient-to-br from-fuchsia-600/30 via-purple-700/30 to-blue-700/30 border border-white/10 p-5 relative overflow-hidden">
+                                    <div class="text-[10px] uppercase tracking-widest text-fuchsia-200 font-bold" data-i18n="mock_kicker">Business Deck</div>
+                                    <h3 class="mt-2 font-display text-2xl font-bold text-white" data-i18n="mock_title">Investor Pitch</h3>
+                                    <p class="mt-1 text-xs text-white/70 max-w-[220px]" data-i18n="mock_desc">Clean strategy slides with charts, structure, and premium storytelling.</p>
+                                    <div class="absolute right-4 bottom-4 flex items-end gap-1.5">
+                                        <span class="w-2 rounded-t bg-gradient-to-t from-fuchsia-500 to-pink-300" style="height: 16px;"></span>
+                                        <span class="w-2 rounded-t bg-gradient-to-t from-fuchsia-500 to-pink-300" style="height: 28px;"></span>
+                                        <span class="w-2 rounded-t bg-gradient-to-t from-fuchsia-500 to-pink-300" style="height: 22px;"></span>
+                                        <span class="w-2 rounded-t bg-gradient-to-t from-fuchsia-500 to-pink-300" style="height: 36px;"></span>
+                                        <span class="w-2 rounded-t bg-gradient-to-t from-fuchsia-500 to-pink-300" style="height: 30px;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute glass rounded-2xl p-4 w-52 shadow-card animate-float -top-2 -left-4" style="animation-delay: 0.4s; transform: rotate(-8deg); --tw-rotate: -8deg;">
+                            <div class="h-20 rounded-lg bg-gradient-to-br from-pink-500/40 to-rose-600/40 border border-pink-400/30 mb-3 grid place-items-center">
+                                <i data-lucide="bar-chart-3" class="w-8 h-8 text-white/80"></i>
+                            </div>
+                            <div class="text-xs font-semibold text-white" data-i18n="work2_title">Marketing Pitch</div>
+                            <div class="text-[10px] text-white/70 mt-0.5">Marketing • Modern</div>
+                            <div class="mt-2 flex gap-1"><span class="h-1 w-10 rounded-full bg-white/30"></span><span class="h-1 w-6 rounded-full bg-white/15"></span></div>
+                        </div>
+
+                        <div class="absolute glass rounded-2xl p-4 w-52 shadow-card animate-float -bottom-4 -right-4" style="animation-delay: 1.2s; transform: rotate(7deg); --tw-rotate: 7deg;">
+                            <div class="h-20 rounded-lg bg-gradient-to-br from-sky-500/40 to-indigo-600/40 border border-sky-400/30 mb-3 grid place-items-center">
+                                <i data-lucide="bar-chart-3" class="w-8 h-8 text-white/80"></i>
+                            </div>
+                            <div class="text-xs font-semibold text-white" data-i18n="work3_title">Startup Pitch</div>
+                            <div class="text-[10px] text-white/70 mt-0.5">Startup • Polished</div>
+                            <div class="mt-2 flex gap-1"><span class="h-1 w-10 rounded-full bg-white/30"></span><span class="h-1 w-6 rounded-full bg-white/15"></span></div>
+                        </div>
+
+                        <div class="absolute glass rounded-2xl p-4 w-52 shadow-card animate-float bottom-10 -left-8" style="animation-delay: 0.8s; transform: rotate(-4deg); --tw-rotate: -4deg;">
+                            <div class="h-20 rounded-lg bg-gradient-to-br from-fuchsia-500/40 to-purple-600/40 border border-fuchsia-400/30 mb-3 grid place-items-center">
+                                <i data-lucide="bar-chart-3" class="w-8 h-8 text-white/80"></i>
+                            </div>
+                            <div class="text-xs font-semibold text-white" data-i18n="work1_title">Creative Pitch</div>
+                            <div class="text-[10px] text-white/70 mt-0.5">Creative • Visual</div>
+                            <div class="mt-2 flex gap-1"><span class="h-1 w-10 rounded-full bg-white/30"></span><span class="h-1 w-6 rounded-full bg-white/15"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mx-auto mt-12 w-[min(100%,1280px)] px-6">
+                    <div class="glass-strong rounded-2xl px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-6 shadow-card">
+                        <div class="flex items-center gap-3">
+                            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/5 border border-white/10"><i data-lucide="check-circle-2" class="w-5 h-5 text-fuchsia-300"></i></span>
+                            <span class="font-medium text-white" data-i18n="feat_easy">Easy to Edit</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/5 border border-white/10"><i data-lucide="layout-grid" class="w-5 h-5 text-fuchsia-300"></i></span>
+                            <span class="font-medium text-white" data-i18n="feat_modern">Modern Design</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/5 border border-white/10"><i data-lucide="sliders" class="w-5 h-5 text-fuchsia-300"></i></span>
+                            <span class="font-medium text-white" data-i18n="feat_custom">Fully Customizable</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="grid place-items-center w-10 h-10 rounded-xl bg-white/5 border border-white/10"><i data-lucide="clock" class="w-5 h-5 text-fuchsia-300"></i></span>
+                            <span class="font-medium text-white" data-i18n="feat_save">Save Your Time</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="video-works" class="relative py-16">
+                <div class="mx-auto w-[min(100%,1280px)] px-6">
+                    <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
+                        <div class="max-w-2xl">
+                            <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs font-medium text-white">
+                                <i data-lucide="play" class="w-3.5 h-3.5 text-fuchsia-300 fill-fuchsia-300"></i>
+                                <span data-i18n="port_badge">Video Portfolio</span>
+                            </div>
+                            <h2 class="font-display mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-white">
+                                <span data-i18n="port_title_1">Presentation</span> <span class="text-gradient" data-i18n="port_title_2">Video Previews</span>
+                            </h2>
+                            <p class="mt-3 text-white/70" data-i18n="port_subtitle">Watch short previews of presentation designs, animated slides, and visual transformations created by SlideUp.</p>
+                        </div>
+                        <a href="#about" class="inline-flex items-center gap-2 px-5 py-3 rounded-full glass-strong text-sm text-white hover:border-white/30 transition">
+                            <span data-i18n="port_request">Request a Presentation</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                        </a>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <article class="group glass-strong rounded-3xl overflow-hidden shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="relative h-52 overflow-hidden rounded-t-3xl bg-black">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/5L_qZvVFHqY?rel=0" title="Video Portfolio" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video1_tag1">PowerPoint</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video1_tag2">Glassy Design</span>
+                                </div>
+                                <h3 class="font-display text-xl font-semibold text-white" data-i18n="video1_title">Professional Glassy PowerPoint</h3>
+                                <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="video1_desc">Modern glassmorphism presentation with premium zoom animations.</p>
+                                <a href="https://www.youtube.com/watch?v=5L_qZvVFHqY" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia-300 hover:text-fuchsia-200 transition">
+                                    <span data-i18n="port_watch">Watch Preview</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="group glass-strong rounded-3xl overflow-hidden shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="relative h-52 overflow-hidden rounded-t-3xl bg-black">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/ocFvN2btExA?rel=0" title="Video Portfolio" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video2_tag1">AI</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video2_tag2">Morph Effect</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video2_tag3">Modern</span>
+                                </div>
+                                <h3 class="font-display text-xl font-semibold text-white" data-i18n="video2_title">AI Animated Presentation</h3>
+                                <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="video2_desc">Animated AI presentation with smooth morph transitions.</p>
+                                <a href="https://www.youtube.com/watch?v=ocFvN2btExA" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia-300 hover:text-fuchsia-200 transition">
+                                    <span data-i18n="port_watch">Watch Preview</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="group glass-strong rounded-3xl overflow-hidden shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="relative h-52 overflow-hidden rounded-t-3xl bg-black">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/kT3kUM7_m5g?rel=0" title="Video Portfolio" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video3_tag1">Arabic</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video3_tag2">Cinematic</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video3_tag3">Zoom Effect</span>
+                                </div>
+                                <h3 class="font-display text-xl font-semibold text-white" data-i18n="video3_title">Arabic Cinematic Presentation</h3>
+                                <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="video3_desc">Arabic PowerPoint design with cinematic zoom transitions.</p>
+                                <a href="https://www.youtube.com/watch?v=kT3kUM7_m5g" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia-300 hover:text-fuchsia-200 transition">
+                                    <span data-i18n="port_watch">Watch Preview</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="group glass-strong rounded-3xl overflow-hidden shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="relative h-52 overflow-hidden rounded-t-3xl bg-black">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/pQ8BPLN6O-M?rel=0" title="Video Portfolio" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video4_tag1">Corporate</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video4_tag2">Professional</span>
+                                </div>
+                                <h3 class="font-display text-xl font-semibold text-white" data-i18n="video4_title">Corporate Presentation</h3>
+                                <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="video4_desc">Professional corporate slide design with modern transitions.</p>
+                                <a href="https://www.youtube.com/watch?v=pQ8BPLN6O-M" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia-300 hover:text-fuchsia-200 transition">
+                                    <span data-i18n="port_watch">Watch Preview</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="group glass-strong rounded-3xl overflow-hidden shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="relative h-52 overflow-hidden rounded-t-3xl bg-black">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/QSeIunNLSRg?rel=0" title="Video Portfolio" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video5_tag1">Medical</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video5_tag2">Academic</span>
+                                </div>
+                                <h3 class="font-display text-xl font-semibold text-white" data-i18n="video5_title">Medical Presentation</h3>
+                                <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="video5_desc">Academic and medical presentation with clean infographic style.</p>
+                                <a href="https://www.youtube.com/watch?v=QSeIunNLSRg" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia-300 hover:text-fuchsia-200 transition">
+                                    <span data-i18n="port_watch">Watch Preview</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </article>
+
+                        <article class="group glass-strong rounded-3xl overflow-hidden shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="relative h-52 overflow-hidden rounded-t-3xl bg-black">
+                                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/BanV7bDdCCo?rel=0" title="Video Portfolio" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video6_tag1">Hotel</span>
+                                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full glass text-fuchsia-200 font-semibold" data-i18n="video6_tag2">Infographic</span>
+                                </div>
+                                <h3 class="font-display text-xl font-semibold text-white" data-i18n="video6_title">Hotel Infographic Presentation</h3>
+                                <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="video6_desc">Luxury hospitality presentation with cinematic animations.</p>
+                                <a href="https://www.youtube.com/watch?v=BanV7bDdCCo" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia-300 hover:text-fuchsia-200 transition">
+                                    <span data-i18n="port_watch">Watch Preview</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="glass-strong rounded-2xl p-6 text-center hover:glow-purple transition">
+                            <div class="font-display text-3xl sm:text-4xl font-bold text-gradient">100+</div>
+                            <div class="mt-1 text-xs text-white/70 uppercase tracking-wider" data-i18n="stat_1">Happy Creators</div>
+                        </div>
+                        <div class="glass-strong rounded-2xl p-6 text-center hover:glow-purple transition">
+                            <div class="font-display text-3xl sm:text-4xl font-bold text-gradient">500+</div>
+                            <div class="mt-1 text-xs text-white/70 uppercase tracking-wider" data-i18n="stat_2">Premium Templates</div>
+                        </div>
+                        <div class="glass-strong rounded-2xl p-6 text-center hover:glow-purple transition">
+                            <div class="font-display text-3xl sm:text-4xl font-bold text-gradient">98%</div>
+                            <div class="mt-1 text-xs text-white/70 uppercase tracking-wider" data-i18n="stat_3">Satisfaction Rate</div>
+                        </div>
+                        <div class="glass-strong rounded-2xl p-6 text-center hover:glow-purple transition">
+                            <div class="font-display text-3xl sm:text-4xl font-bold text-gradient">48h</div>
+                            <div class="mt-1 text-xs text-white/70 uppercase tracking-wider" data-i18n="stat_4">Avg. Delivery</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="how-it-works" class="relative py-16">
+                <div class="absolute inset-0 -z-10 grid-pattern opacity-20"></div>
+                <div class="mx-auto w-[min(100%,1280px)] px-6">
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <div class="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 text-xs font-medium text-white">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-fuchsia-300"></i>
+                            <span data-i18n="how_badge">Simple Process</span>
+                        </div>
+                        <h2 class="font-display mt-4 text-4xl sm:text-5xl font-bold tracking-tight text-white">
+                            <span data-i18n="how_title_1">How It</span> <span class="text-gradient" data-i18n="how_title_2">Works</span>
+                        </h2>
+                        <p class="mt-3 text-white/70" data-i18n="how_subtitle">A simple process to turn your idea, content, or rough slides into a polished PowerPoint presentation.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <article class="relative glass-strong rounded-3xl p-8 shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-fuchsia-400/60 to-transparent"></div>
+                            <div class="flex items-start justify-between">
+                                <span class="grid place-items-center w-14 h-14 rounded-2xl bg-gradient-neon glow-purple">
+                                    <i data-lucide="send" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <span class="font-display text-5xl font-bold text-white/10">01</span>
+                            </div>
+                            <h3 class="mt-5 font-display text-xl font-semibold text-white" data-i18n="step1_title">Send Your Content</h3>
+                            <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="step1_text">Share your text, topic, brand colors, files, or any examples you like.</p>
+                            <i data-lucide="arrow-right" class="hidden md:block absolute -right-5 top-1/2 -translate-y-1/2 w-6 h-6 text-fuchsia-400/60 rtl:rotate-180"></i>
+                        </article>
+
+                        <article class="relative glass-strong rounded-3xl p-8 shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-fuchsia-400/60 to-transparent"></div>
+                            <div class="flex items-start justify-between">
+                                <span class="grid place-items-center w-14 h-14 rounded-2xl bg-gradient-neon glow-purple">
+                                    <i data-lucide="wand-2" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <span class="font-display text-5xl font-bold text-white/10">02</span>
+                            </div>
+                            <h3 class="mt-5 font-display text-xl font-semibold text-white" data-i18n="step2_title">I Design the Slides</h3>
+                            <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="step2_text">I create a clean, modern, and professional presentation design that fits your goal.</p>
+                            <i data-lucide="arrow-right" class="hidden md:block absolute -right-5 top-1/2 -translate-y-1/2 w-6 h-6 text-fuchsia-400/60 rtl:rotate-180"></i>
+                        </article>
+
+                        <article class="relative glass-strong rounded-3xl p-8 shadow-card hover:-translate-y-2 hover:glow-purple transition-all duration-500">
+                            <div class="absolute -top-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-fuchsia-400/60 to-transparent"></div>
+                            <div class="flex items-start justify-between">
+                                <span class="grid place-items-center w-14 h-14 rounded-2xl bg-gradient-neon glow-purple">
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <span class="font-display text-5xl font-bold text-white/10">03</span>
+                            </div>
+                            <h3 class="mt-5 font-display text-xl font-semibold text-white" data-i18n="step3_title">Review and Delivery</h3>
+                            <p class="mt-2 text-sm text-white/70 leading-relaxed" data-i18n="step3_text">You review the work, request edits, and receive the final PowerPoint file.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="relative py-16 overflow-hidden">
+                <div class="absolute inset-0 -z-10 grid-pattern opacity-10"></div>
+                <div class="mx-auto w-[min(100%,1280px)] px-6">
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+                        
+                        <div class="group relative glass-strong rounded-[2rem] p-8 md:p-10 overflow-hidden shadow-card h-full flex flex-col justify-center transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_0_60px_-10px_rgba(217,70,239,0.45)]">
+                            <div class="absolute -top-32 -right-20 w-80 h-80 rounded-full bg-fuchsia-500/30 blur-3xl animate-glow"></div>
+                            <div class="absolute -bottom-32 -left-20 w-80 h-80 rounded-full bg-blue-500/25 blur-3xl animate-glow" style="animation-delay: 2s;"></div>
+                            <div class="absolute inset-0 grid-pattern opacity-20"></div>
+                            <div class="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10 pointer-events-none"></div>
+
+                            <div class="relative flex flex-col items-center text-center gap-6">
+                           <div class="relative w-24 h-24 animate-float">
+    <div class="absolute inset-0 rounded-3xl bg-gradient-neon glow-purple"></div>
+    <div class="absolute inset-3 rounded-2xl glass-strong grid place-items-center">
+        <i data-lucide="sparkles" class="w-8 h-8 text-fuchsia-300"></i>
+    </div>
+</div>
+                                <div>
+                                    <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
+                                        <span data-i18n="cta_title_1">Ready to create</span> <br />
+                                        <span class="text-gradient italic" data-i18n="cta_title_2">stunning presentations?</span>
+                                    </h2>
+                                    <p class="mt-4 text-white/70 max-w-md mx-auto" data-i18n="cta_subtitle">Join thousands of creators who trust SlideUp for their presentations.</p>
+                                </div>
+                                <a class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-neon text-white font-semibold glow-purple hover:scale-[1.04] transition whitespace-nowrap">
+                                    <span data-i18n="cta_button">Get Started</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div id="contact-form-wrapper" class="group relative glass-strong rounded-[2rem] p-8 md:p-10 shadow-card h-full flex flex-col justify-center overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_0_60px_-10px_rgba(96,165,250,0.45)]">
+                            <div class="absolute -top-32 -left-20 w-80 h-80 rounded-full bg-blue-500/25 blur-3xl animate-glow"></div>
+                            <div class="absolute -bottom-32 -right-20 w-80 h-80 rounded-full bg-fuchsia-500/20 blur-3xl animate-glow" style="animation-delay: 2s;"></div>
+                            <div class="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10 pointer-events-none"></div>
+
+                            <div class="relative">
+                                <div class="text-center mb-6">
+                                    <h2 class="font-display text-3xl sm:text-4xl font-bold tracking-tight text-white">
+                                        <span data-i18n="contact_title_1">Get in</span> <span class="text-gradient" data-i18n="contact_title_2">Touch</span>
+                                    </h2>
+                                    <p class="mt-3 text-white/70" data-i18n="contact_subtitle">Tell me what you need and I’ll reply as soon as possible.</p>
+                                </div>
+
+                                <form id="contactForm" action="https://formsubmit.cloud/f/43aaded6-76b4-4848-8b77-1880c3103a46/" method="POST" class="space-y-4">
+                                    <input type="text" name="_gotcha" style="display:none" />
+                                    <input type="hidden" name="_captcha" value="false" />
+                                    <input type="hidden" name="_subject" value="New message from SlideUp website" />
+                                    <input type="hidden" name="_next" value="https://YOUR-WEBSITE-URL.com/#contact" />
+                                    <div class="grid md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block mb-2 text-sm font-semibold text-white" data-i18n="contact_name">Full Name *</label>
+                                            <input type="text" name="name" required data-i18n-placeholder="contact_name_placeholder" placeholder="Your name" class="w-full rounded-2xl glass px-4 py-3 text-white placeholder:text-white/45 outline-none border border-white/10 focus:border-fuchsia-400/60 transition" />
+                                        </div>
+                                        <div>
+                                            <label class="block mb-2 text-sm font-semibold text-white" data-i18n="contact_email">Email Address</label>
+                                            <input type="email" name="email" data-i18n-placeholder="contact_email_placeholder" placeholder="your@email.com" class="w-full rounded-2xl glass px-4 py-3 text-white placeholder:text-white/45 outline-none border border-white/10 focus:border-fuchsia-400/60 transition" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block mb-2 text-sm font-semibold text-white" data-i18n="contact_whatsapp">WhatsApp Number</label>
+                                        <input type="tel" name="whatsapp" data-i18n-placeholder="contact_whatsapp_placeholder" placeholder="+1 234 567 8900" class="w-full rounded-2xl glass px-4 py-3 text-white placeholder:text-white/45 outline-none border border-white/10 focus:border-fuchsia-400/60 transition" />
+                                    </div>
+
+                                    <div>
+                                        <label class="block mb-2 text-sm font-semibold text-white" data-i18n="contact_message">Message *</label>
+                                        <textarea name="message" required rows="4" data-i18n-placeholder="contact_message_placeholder" placeholder="Write your message..." class="w-full rounded-2xl glass px-4 py-3 text-white placeholder:text-white/45 outline-none border border-white/10 focus:border-fuchsia-400/60 transition resize-none"></textarea>
+                                        <p class="mt-2 text-xs text-white/60 leading-relaxed text-justify" data-i18n="contact_privacy">
+                                            Your privacy matters to us. Any information you share is kept secure and used only to respond to your inquiry.
+                                        </p>
+                                    </div>
+
+                                    <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-gradient-neon text-white font-semibold glow-purple hover:scale-[1.03] transition disabled:opacity-60 disabled:cursor-not-allowed">
+                                        <span data-i18n="contact_submit">Submit Message</span>
+                                        <i data-lucide="send" class="w-4 h-4"></i>
+                                    </button>
+
+                                    <div id="statusSuccess" class="hidden rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200" data-i18n="contact_success">
+                                        Thank you! I’ll reply to you soon.
+                                    </div>
+
+                                    <div id="statusError" class="hidden rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-200" data-i18n="contact_error">
+                                        Something went wrong. Please try again.
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="relative border-t border-white/5 py-8 mt-4">
+            <div class="mx-auto w-[min(100%,1280px)] px-6 flex flex-col items-center justify-center gap-3 text-sm text-white/70 text-center">
+                <a href="#home" class="flex items-center gap-3 group">
+                    <span class="relative grid place-items-center w-10 h-10 rounded-xl bg-gradient-neon glow-purple">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-white" stroke-width="2.5"></i>
+                    </span>
+                    <span class="font-display text-xl font-bold tracking-tight text-white">
+                        Slide<span class="text-gradient">Up</span>
+                    </span>
+                </a>
+                <div>
+                    <span data-i18n="footer">© 2026 SlideUp. All rights reserved. Made with</span> <span class="text-fuchsia-400">♥</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 1. Language Dictionaries
+        const dicts = {
+            en: {
+                nav_home: "Home", nav_templates: "Templates", nav_process: "Process", nav_about: "About", nav_search: "Search templates...", nav_login: "Log in", nav_signup: "Sign up",
+                hero_badge: "Beautiful Slides, Powerful Ideas", hero_title_1: "Make Every", hero_title_2: "Slide Shine", hero_subtitle: "Stunning PowerPoint templates and presentation design crafted to elevate every pitch, story, and idea.", hero_cta_explore: "Explore Templates", hero_cta_how: "How It Works", hero_trusted: "Trusted by 10,000+", hero_trusted_sub: "creators & professionals",
+                feat_easy: "Easy to Edit", feat_modern: "Modern Design", feat_custom: "Fully Customizable", feat_save: "Save Your Time",
+                mock_kicker: "Business Deck", mock_title: "Investor Pitch", mock_desc: "Clean strategy slides with charts, structure, and premium storytelling.",
+                port_badge: "Video Portfolio", port_title_1: "Presentation", port_title_2: "Video Previews", port_subtitle: "Watch short previews of presentation designs, animated slides, and visual transformations created by SlideUp.", port_request: "Request a Presentation", port_watch: "Watch Preview",
+                video1_title: "Professional Glassy PowerPoint", video1_desc: "Modern glassmorphism presentation with premium zoom animations.", video1_tag1: "PowerPoint", video1_tag2: "Glassy Design",
+                video2_title: "AI Animated Presentation", video2_desc: "Animated AI presentation with smooth morph transitions.", video2_tag1: "AI", video2_tag2: "Morph Effect", video2_tag3: "Modern",
+                video3_title: "Arabic Cinematic Presentation", video3_desc: "Arabic PowerPoint design with cinematic zoom transitions.", video3_tag1: "Arabic", video3_tag2: "Cinematic", video3_tag3: "Zoom Effect",
+                video4_title: "Corporate Presentation", video4_desc: "Professional corporate slide design with modern transitions.", video4_tag1: "Corporate", video4_tag2: "Professional",
+                video5_title: "Medical Presentation", video5_desc: "Academic and medical presentation with clean infographic style.", video5_tag1: "Medical", video5_tag2: "Academic",
+                video6_title: "Hotel Infographic Presentation", video6_desc: "Luxury hospitality presentation with cinematic animations.", video6_tag1: "Hotel", video6_tag2: "Infographic",
+                stat_1: "Happy Creators", stat_2: "Premium Templates", stat_3: "Satisfaction Rate", stat_4: "Avg. Delivery",
+                how_badge: "Simple Process", how_title_1: "How It", how_title_2: "Works", how_subtitle: "A simple process to turn your idea, content, or rough slides into a polished PowerPoint presentation.",
+                step1_title: "Send Your Content", step1_text: "Share your text, topic, brand colors, files, or any examples you like.", step2_title: "I Design the Slides", step2_text: "I create a clean, modern, and professional presentation design that fits your goal.", step3_title: "Review and Delivery", step3_text: "You review the work, request edits, and receive the final PowerPoint file.",
+                cta_title_1: "Ready to create", cta_title_2: "stunning presentations?", cta_subtitle: "Join thousands of creators who trust SlideUp for their presentations.", cta_button: "Get Started",
+                contact_title_1: "Get in", contact_title_2: "Touch", contact_subtitle: "Tell me what you need and I’ll reply as soon as possible.", contact_name: "Full Name *", contact_name_placeholder: "Your name", contact_email: "Email Address", contact_email_placeholder: "your@email.com", contact_whatsapp: "WhatsApp Number", contact_whatsapp_placeholder: "+1 234 567 8900", contact_message: "Message *", contact_message_placeholder: "Write your message...", contact_privacy: "Your privacy matters to us. Any information you share is kept secure and used only to respond to your inquiry.", contact_submit: "Submit Message", contact_sending: "Sending...", contact_success: "Thank you! I’ll reply to you soon.", contact_error: "Something went wrong. Please try again.", footer: "© 2026 SlideUp. All rights reserved. Made with",
+                work1_title: "Creative Pitch", work2_title: "Marketing Pitch", work3_title: "Startup Pitch"
+            },
+            ar: {
+                nav_home: "الرئيسية", nav_templates: "القوالب", nav_process: "آلية العمل", nav_about: "من نحن", nav_search: "ابحث عن قالب...", nav_login: "تسجيل الدخول", nav_signup: "إنشاء حساب",
+                hero_badge: "شرائح أنيقة، أفكار مؤثرة", hero_title_1: "اجعل كل", hero_title_2: "شريحة تتألق", hero_subtitle: "قوالب باوربوينت احترافية وتصاميم عروض تقديمية مصمَّمة لترتقي بكل فكرة وقصة وعرض تقدّمه.", hero_cta_explore: "استكشف القوالب", hero_cta_how: "كيف نعمل", hero_trusted: "موثوق من أكثر من 10,000", hero_trusted_sub: "مبدع ومحترف حول العالم",
+                feat_easy: "سهل التعديل", feat_modern: "تصميم عصري", feat_custom: "قابل للتخصيص بالكامل", feat_save: "يوفّر وقتك",
+                mock_kicker: "عرض أعمال", mock_title: "عرض للمستثمرين", mock_desc: "شرائح استراتيجية أنيقة برسوم بيانية وبنية متماسكة وسرد راقٍ.",
+                port_badge: "معرض الأعمال المرئية", port_title_1: "معاينات", port_title_2: "العروض التقديمية", port_subtitle: "شاهد معاينات قصيرة لتصاميم العروض التقديمية والشرائح المتحركة والتحويلات البصرية التي ننفّذها في SlideUp.", port_request: "اطلب عرضك التقديمي", port_watch: "شاهد المعاينة",
+                video1_title: "عرض باوربوينت زجاجي احترافي", video1_desc: "تصميم حديث بتأثير الزجاج مع حركات زوم احترافية.", video1_tag1: "باوربوينت", video1_tag2: "تصميم زجاجي",
+                video2_title: "عرض متحرك عن الذكاء الاصطناعي", video2_desc: "عرض احترافي بتأثيرات مورف سلسة.", video2_tag1: "ذكاء اصطناعي", video2_tag2: "تأثير مورف", video2_tag3: "حديث",
+                video3_title: "عرض عربي بتأثير سينمائي", video3_desc: "تصميم عربي مع انتقالات زوم سينمائية.", video3_tag1: "عربي", video3_tag2: "سينمائي", video3_tag3: "زوم",
+                video4_title: "عرض تقديمي للشركات", video4_desc: "تصميم احترافي للشركات مع انتقالات حديثة.", video4_tag1: "شركات", video4_tag2: "احترافي",
+                video5_title: "عرض طبي أكاديمي", video5_desc: "عرض طبي أكاديمي بتصميم احترافي وعصري.", video5_tag1: "طبي", video5_tag2: "أكاديمي",
+                video6_title: "عرض إنفوجرافيك للفنادق", video6_desc: "عرض فاخر لقطاع الضيافة مع حركات سينمائية.", video6_tag1: "فنادق", video6_tag2: "إنفوجرافيك",
+                stat_1: "عميل سعيد", stat_2: "قالب مميّز", stat_3: "نسبة الرضا", stat_4: "متوسط التسليم",
+                how_badge: "خطوات بسيطة", how_title_1: "كيف", how_title_2: "نعمل", how_subtitle: "عملية مبسّطة تحوّل فكرتك أو محتواك أو شرائحك الأولية إلى عرض باوربوينت متكامل واحترافي.",
+                step1_title: "أرسل محتواك", step1_text: "شاركنا النص أو الموضوع أو ألوان العلامة التجارية والملفات أو أي أمثلة تعجبك.", step2_title: "نصمّم الشرائح", step2_text: "نُعدّ تصميمًا عصريًا ونظيفًا واحترافيًا يتناسب تمامًا مع أهدافك.", step3_title: "المراجعة والتسليم", step3_text: "تراجع العمل، تطلب التعديلات، ثم تستلم ملف الباوربوينت النهائي جاهزًا.",
+                cta_title_1: "هل أنت جاهز لصناعة", cta_title_2: "عروض تقديمية مذهلة؟", cta_subtitle: "انضم إلى آلاف المبدعين الذين يعتمدون على SlideUp في عروضهم التقديمية.", cta_button: "ابدأ الآن",
+                contact_title_1: "تواصل", contact_title_2: "معنا", contact_subtitle: "أخبرني بما تحتاجه وسأرد عليك في أقرب وقت ممكن.", contact_name: "الاسم الكامل *", contact_name_placeholder: "اكتب اسمك", contact_email: "البريد الإلكتروني", contact_email_placeholder: "example@email.com", contact_whatsapp: "رقم الواتساب", contact_whatsapp_placeholder: "+213 xxx xxx xxx", contact_message: "الرسالة *", contact_message_placeholder: "اكتب رسالتك...", contact_privacy: "خصوصيتك مهمة لنا. جميع المعلومات التي تشاركها معنا محفوظة بأمان وتُستخدم فقط للرد على استفسارك.", contact_submit: "إرسال الرسالة", contact_sending: "جارٍ الإرسال...", contact_success: "شكراً لك! سيتم الرد عليك قريباً.", contact_error: "حدث خطأ. يرجى المحاولة مرة أخرى.", footer: "© 2026 SlideUp. جميع الحقوق محفوظة. صُنع بكل",
+                work1_title: "عرض إبداعي", work2_title: "عرض تسويقي", work3_title: "عرض شركات ناشئة"
+            }
+        };
+
+        let currentLang = localStorage.getItem("lang") || "en";
+
+        // 2. Language Update Logic
+        function updateContent() {
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+            
+            // Translate Text nodes
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const key = el.getAttribute("data-i18n");
+                if (dicts[currentLang][key]) {
+                    el.innerHTML = dicts[currentLang][key];
+                }
+            });
+
+            // Translate Placeholders
+            document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+                const key = el.getAttribute("data-i18n-placeholder");
+                if (dicts[currentLang][key]) {
+                    el.setAttribute("placeholder", dicts[currentLang][key]);
+                }
+            });
+
+            // Update active states on switcher
+            const btnEn = document.getElementById('btn-en');
+            const btnAr = document.getElementById('btn-ar');
+            
+            if (currentLang === 'en') {
+                btnEn.className = "px-2.5 py-1 rounded-full transition bg-gradient-neon text-white";
+                btnAr.className = "px-2.5 py-1 rounded-full transition text-white/70 hover:text-white";
+            } else {
+                btnAr.className = "px-2.5 py-1 rounded-full transition bg-gradient-neon text-white";
+                btnEn.className = "px-2.5 py-1 rounded-full transition text-white/70 hover:text-white";
+            }
+        }
+
+        window.setLang = function(lang) {
+            currentLang = lang;
+            localStorage.setItem("lang", lang);
+            updateContent();
+        };
+
+        // 3. Parallax Hero Tilt Effect
+        const heroWrap = document.getElementById("hero-wrap");
+        const worksElement = document.getElementById("works");
+        if (heroWrap && worksElement) {
+            heroWrap.addEventListener("mousemove", (e) => {
+                const r = heroWrap.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width - 0.5;
+                const y = (e.clientY - r.top) / r.height - 0.5;
+                worksElement.style.transform = `perspective(1200px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+            });
+        }
+
+        // 4. Form Submit Logic
+        const form = document.getElementById("contactForm");
+        const submitBtn = document.getElementById("submitBtn");
+        const statusSuccess = document.getElementById("statusSuccess");
+        const statusError = document.getElementById("statusError");
+
+        form.addEventListener("submit", (e) => {
+            // Show sending state before the page navigates away
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span data-i18n="contact_sending">${dicts[currentLang].contact_sending}</span> <i data-lucide="send" class="w-4 h-4"></i>`;
+            lucide.createIcons();
+            // Form posts directly to formsubmit.cloud via action attribute
+            // _next hidden field controls where the user lands after submission
+        });
+
+        // 5. Initial Execution
+        document.addEventListener("DOMContentLoaded", () => {
+            updateContent();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
